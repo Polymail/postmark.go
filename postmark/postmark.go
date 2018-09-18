@@ -31,6 +31,8 @@ type Message struct {
 	ReplyTo       *mail.Address
 	Headers       mail.Header
 	Attachments   []Attachment
+	TrackOpens    bool
+	TrackLinks    bool
 }
 
 func (m *Message) MarshalJSON() ([]byte, error) {
@@ -48,6 +50,8 @@ func (m *Message) MarshalJSON() ([]byte, error) {
 		ReplyTo       string
 		Headers       []map[string]string
 		Attachments   []Attachment `json:",omitempty"`
+		TrackOpens    bool
+		TrackLinks    bool
 	}{}
 
 	doc.From = m.From.String()
@@ -98,6 +102,8 @@ func (m *Message) MarshalJSON() ([]byte, error) {
 	}
 	doc.Headers = headers
 	doc.Attachments = m.Attachments
+	doc.TrackLinks = m.TrackLinks
+	doc.TrackOpens = m.TrackOpens
 
 	return json.Marshal(doc)
 }
