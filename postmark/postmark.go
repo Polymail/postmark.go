@@ -51,7 +51,7 @@ func (m *Message) MarshalJSON() ([]byte, error) {
 		Headers       []map[string]string
 		Attachments   []Attachment `json:",omitempty"`
 		TrackOpens    bool
-		TrackLinks    bool
+		TrackLinks    string
 	}{}
 
 	doc.From = m.From.String()
@@ -102,7 +102,11 @@ func (m *Message) MarshalJSON() ([]byte, error) {
 	}
 	doc.Headers = headers
 	doc.Attachments = m.Attachments
-	doc.TrackLinks = m.TrackLinks
+	if m.TrackLinks {
+		doc.TrackLinks = "HtmlOnly"
+	} else {
+		doc.TrackLinks = "None"
+	}
 	doc.TrackOpens = m.TrackOpens
 
 	return json.Marshal(doc)
